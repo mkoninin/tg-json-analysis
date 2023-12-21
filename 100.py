@@ -31,7 +31,8 @@ class tg_json_analysis:
         - Сколько сообщений всего
         - Самые продуктивные пользователи
         - Продуктивность пары: день недели - час дня
-        - Важные слова (top-3 слов по TD/IDF по каждому сообщению)
+        - Важные слова (top-3 слов по TD/IDF по каждому сообщению суммируются и отбирается топ-25)
+        - Топ-25 слов из лексикона
         
         '''
         pass
@@ -115,7 +116,6 @@ for message in data['messages']:
             except TypeError:
                 text.append(t)
         data_point['text'] = ' '.join(text)
-    # data_point['text'] = emoji.demojize(data_point['text'])
     emojis = [x.chars for x in emoji.analyze(data_point['text'])]
     words = nlp.tokenizeNormalize(emoji.replace_emoji(data_point['text'], '.'))
     data_point['words'] = Counter(words + emojis)
