@@ -25,7 +25,7 @@ for path in paths:
     chat_data['chat_id'] = tg.chat_id
     chat_data['chat_name'] = tg.chat_name
 
-    output_path = f'output/{tg.chat_id}'
+    output_path = f'output/tg-{tg.chat_id}'
     if not os.path.exists(output_path):
         os.mkdir(output_path)
 
@@ -100,20 +100,20 @@ for path in paths:
     # создание текстового описания
 
     md_list = f'''---
-    title: "Анализ чата: {chat_data['chat_name']} - id: {chat_data['chat_id']}"
-    description: ""
-    date: {datetime.datetime.now().strftime ("%Y-%m-%dT%H:%M:%S+07:00")}
-    images: []
-    audio: []
-    videos: []
-    series: []
-    tags: []
-    draft: true
-    private: false
-    ---
+title: "Анализ чата: {chat_data['chat_name']} - id: {chat_data['chat_id']}"
+description: ""
+date: {datetime.datetime.now().strftime ("%Y-%m-%dT%H:%M:%S+07:00")}
+images: []
+audio: []
+videos: []
+series: []
+tags: []
+draft: true
+private: false
+---
 
 
-    '''.splitlines()
+'''.splitlines()
 
     for key in chat_data.keys():
         print(key)
