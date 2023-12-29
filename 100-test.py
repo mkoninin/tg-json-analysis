@@ -51,8 +51,8 @@ df.columns = [a[1] for a in df.columns.tolist()]
 sns.heatmap(df, cmap='RdYlGn_r', linewidths=0.5).set_title(f'Когда люди пишут в чате: {tg.chat_name}')
 
 chat_data['weekday_hour'] = df
-chat_data['weekday_hour_fig'] = os.path.join(output_path, f'{tg.chat_id}-weekday_hour.png')
-plt.savefig(chat_data['weekday_hour_fig'])
+chat_data['weekday_hour_fig'] = f'{tg.chat_id}-weekday_hour.png'
+plt.savefig(os.path.join(output_path, chat_data['weekday_hour_fig']))
 
 # %%
 
@@ -60,16 +60,16 @@ plt.savefig(chat_data['weekday_hour_fig'])
 
 week = tg.statMsgByPeriod()
 df = pd.DataFrame(week.values(), index=week.keys(), columns=['Количество сообщений в неделю'])
+df.index.name = (('Год', 'Неделя'))
 df.plot()
 
 chat_data['msg_by_week'] = df
-chat_data['msg_by_week_fig'] = os.path.join(output_path, f'{tg.chat_id}-msg_by_week.png')
+chat_data['msg_by_week_fig'] = f'{tg.chat_id}-msg_by_week.png'
 plt.grid()
 
 plt.title('Количество сообщений по неделям')
-
-plt.savefig(chat_data['msg_by_week_fig'])
-
+plt.xlabel('Неделя')
+plt.savefig(os.path.join(output_path, chat_data['msg_by_week_fig']))
 
 # %%
 
@@ -80,11 +80,12 @@ df = pd.DataFrame(users, columns=['Год', 'Неделя', 'Имя пользо
 df.groupby(['Год', 'Неделя']).count().plot()
 
 chat_data['users_by_week'] = df
-chat_data['users_by_week_fig'] = os.path.join(output_path, f'{tg.chat_id}-users_by_week.png')
+chat_data['users_by_week_fig'] = f'{tg.chat_id}-users_by_week.png'
 plt.grid()
 plt.title('Количество активных пользователей по неделям')
+plt.xlabel('Неделя')
 
-plt.savefig(chat_data['users_by_week_fig'])
+plt.savefig(os.path.join(output_path, chat_data['users_by_week_fig']))
 
 
 # %%
@@ -93,25 +94,25 @@ plt.savefig(chat_data['users_by_week_fig'])
 
 topUsers = tg.statTopUser().most_common(10)
 chat_data['top_users'] = topUsers
-chat_data['top_users_fig'] = os.path.join(output_path, f'{tg.chat_id}-top_users.png')
+chat_data['top_users_fig'] = f'{tg.chat_id}-top_users.png'
 
 df = pd.DataFrame(topUsers, columns=['Имя пользователя', 'Количество сообщений']).set_index('Имя пользователя')
 df.sort_values(by='Количество сообщений').plot(kind='barh')
 
 plt.title('Активные пользователи')
-
-plt.savefig(chat_data['top_users_fig'])
-
+plt.tight_layout()
 plt.grid(axis='x')
+
+plt.savefig(os.path.join(output_path, chat_data['top_users_fig']))
 # %%
 
 # json.dump(chat_data, open(f'{tg.chat_id}-data.json', 'w'), ensure_ascii=False, indent=3)
 # %%
 
 md_list = f'''---
-title: Анализ чата: {chat_data['chat_name']} - id: {chat_data['chat_id']}
+title: "Анализ чата: {chat_data['chat_name']} - id: {chat_data['chat_id']}"
 description: ""
-date: {datetime.datetime.now().isoformat()}
+date: {datetime.datetime.now().strftime ("%Y-%m-%dT%H:%M:%S+07:00")}
 images: []
 audio: []
 videos: []
@@ -157,6 +158,4 @@ md_list += tmp
 
 open(os.path.join(output_path, 'index.md'), 'w').write('\n'.join(md_list))
 
-# %%
-chat_data['users_by_week_fig']
 # %%
