@@ -23,18 +23,6 @@ import wbbase
 
 TOP_TD_IDF = 5
 
-from enum import Enum
-
-class Weekday(Enum):
-    Понедельник = 1
-    Вторник = 2
-    Среда = 3
-    Четверг = 4
-    Пятница = 5
-    Суббота = 6
-    Воскресение = 7
-
-
 class tg_json_analysis:
     def __init__(self, filename) -> None:
         with open(filename, encoding='utf8') as fp:

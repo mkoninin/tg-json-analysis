@@ -47,11 +47,15 @@ for path in paths:
     df = 100*df/df.sum().sum()
     # df = 100*df.div(df.sum(axis=1), axis=0)
     df.columns = [a[1] for a in df.columns.tolist()]
-    sns.heatmap(df, cmap='RdYlGn_r', linewidths=0.5).set_title(f'Когда люди пишут в чате: {tg.chat_name}')
+    s = sns.heatmap(df, cmap='RdYlGn_r', linewidths=0.5).set_title(f'Когда люди пишут в чате: {tg.chat_name}')
 
     chat_data['weekday_hour'] = df
     chat_data['weekday_hour_fig'] = f'{tg.chat_id}-weekday_hour.png'
+    plt.grid(False)
+    plt.tight_layout()
     plt.savefig(os.path.join(output_path, chat_data['weekday_hour_fig']))
+    # plt.tight_layout()
+    # plt.savefig(os.path.join(output_path, chat_data['weekday_hour_fig']))
 
     # сообщений по неделям
 
