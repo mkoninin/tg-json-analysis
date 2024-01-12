@@ -8,7 +8,8 @@ import datetime
 
 import tganalysis
 
-# paths = ['C:/Users/mk/Downloads/Telegram Desktop/ChatExport_2023-12-20']
+paths = ['C:/Users/mk/Downloads/Telegram Desktop/ChatExport_2023-12-20']
+paths = ['ChatExport_2023-12-30_']
 
 paths = os.listdir('data')
 
@@ -150,4 +151,7 @@ private: false
 
     open(os.path.join(output_path, 'index.md'), 'w').write('\n'.join(md_list))
 
+# %%
+
+tg.important_words2.most_common(30)
 # %%

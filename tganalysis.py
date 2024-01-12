@@ -20,6 +20,8 @@ import sys
 sys.path.append('c:/Users/mk/Python/1 - маркетплейсы/Аналитическая система по ВБ/wbClasses2/')
 import wbbase
 
+common_words = [c.strip() for c in open('common_words.txt').readlines()]
+
 
 TOP_TD_IDF = 5
 
@@ -35,6 +37,7 @@ class tg_json_analysis:
         self.msg = namedtuple('msg', self.fields)
         _df = []
         self.ids = set()
+        self.userid_name = {}
 
         for message in data['messages']:
             if 'from' in message: message['from_name'] = message.pop('from')
@@ -55,6 +58,7 @@ class tg_json_analysis:
             data_point['year'], data_point['week'], data_point['weekday'] = date(dt.year, dt.month, dt.day).isocalendar()
             data_point['month'], data_point['day'] = dt.month, dt.day
             self.ids.add(data_point['id'])
+            self.userid_name[data_point['from_id']] = data_point['from_name']
             _df.append(self.msg(**data_point))
         _df = [d for d in _df if d.type == 'message']
         self.df = {v.id:v for v in _df}
@@ -75,6 +79,11 @@ class tg_json_analysis:
             emojis = [x.chars for x in emoji.analyze(data_point['text'])]
             words = self.nlp.tokenizeNormalize(emoji.replace_emoji(data_point['text'], '.'))
             data_point['words'] = Counter(words + emojis)            
+            for c in common_words:
+                try:
+                    del data_point['words'][c]
+                except:
+                    pass
             for word in data_point['words'].keys():
                 if word in self.inverted_index:
                     self.inverted_index[word].append(data_point['id'])
@@ -202,3 +211,5 @@ class tg_json_analysis:
         else:
             f = attrgetter(*name)
         return {k:f(v) for k, v in self.df.items()}
+
+# %%
