@@ -20,7 +20,8 @@ import sys
 sys.path.append('c:/Users/mk/Python/1 - маркетплейсы/Аналитическая система по ВБ/wbClasses2/')
 import wbbase
 
-common_words = [c.strip() for c in open('common_words.txt').readlines()]
+common_words = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'common_words.txt')
+common_words = [c.strip() for c in open(common_words).readlines()]
 
 
 TOP_TD_IDF = 5
