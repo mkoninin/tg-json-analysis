@@ -1,11 +1,6 @@
 # %%
 
-import matplotlib.pyplot as plt
 import math
-import numpy as np
-import pandas as pd
-import seaborn as sns
-from collections import defaultdict
 
 import json, itertools, os
 from datetime import datetime, date
@@ -13,8 +8,6 @@ from collections import namedtuple
 from collections import Counter
 import emoji
 from operator import attrgetter
-
-from enum import Enum
 
 import sys
 sys.path.append('c:/Users/mk/Python/1 - маркетплейсы/Аналитическая система по ВБ/wbClasses2/')
@@ -155,6 +148,16 @@ class tg_json_analysis:
         a = self._groupBy(['from_name'])
         return Counter({k:len(v) for k,v in a.items()})
 
+    def statTopId(self):
+        '''
+        Статистика сгруппированная по пользователям:
+        - Количество сообщений (по периоду)
+        # - Важные слова
+        '''
+        a = self._groupBy(['from_id'])
+        return Counter({k:len(v) for k,v in a.items()})
+
+
     def _genFullBranches(self):
         children = dict()
         for data_point in reversed(self.df.values()):
@@ -213,4 +216,6 @@ class tg_json_analysis:
             f = attrgetter(*name)
         return {k:f(v) for k, v in self.df.items()}
 
+    def getByUserId(self, from_id:str) -> list:
+        return [x for x in list(self.df.values()) if x.from_id == from_id]
 # %%
