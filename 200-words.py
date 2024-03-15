@@ -10,7 +10,7 @@ from collections import Counter
 
 import tganalysis
 
-paths = ['C:/Users/mk/Downloads/Telegram Desktop/ChatExport_2023-12-20']
+paths = ['C:/Users/mk/Downloads/Telegram Desktop/ChatExport_2023-12-30_']
 
 # paths = os.listdir('data')
 
@@ -40,7 +40,7 @@ for k, wds in words.items():
     for (k,v) in wds:
         wds_counter[k] += 1
 
-common_words = [k for k, v in wds_counter.items() if v >3]
+common_words = [k for k, v in wds_counter.items()]
 # wds
 
 open('common_words.txt', 'w').write('\n'.join(common_words))
@@ -68,3 +68,5 @@ open('common_words.txt', 'w').write('\n'.join(common_words))
 # df = pd.DataFrame(words_onehot)
 # df.sum(axis=1).sort_values()
 # # %%
+
+# %%
