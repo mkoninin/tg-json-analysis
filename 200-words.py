@@ -4,16 +4,15 @@
 
 import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
 import json, itertools, os
 import datetime
 from collections import Counter
 
 import tganalysis
 
-# paths = ['C:/Users/mk/Downloads/Telegram Desktop/ChatExport_2023-12-20']
+paths = ['C:/Users/mk/Downloads/Telegram Desktop/ChatExport_2023-12-20']
 
-paths = os.listdir('data')
+# paths = os.listdir('data')
 
 paths
 # %%
@@ -30,6 +29,9 @@ for path in paths:
 
     tg._genWords()
     words[tg.chat_id] = tg.lexicon.most_common(500)
+
+# %%
+tg.df[list(tg.ids)[0]].text
 
 # %%
 
