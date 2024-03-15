@@ -154,4 +154,3 @@ cython_debug/
 data/
 output/
 data2/
-*.txt
